@@ -14,7 +14,7 @@ yo protractor:unit test-name
 ./selenium/start
 
 4. Run Protractor:
-./node_modules/protractor/bin/protractor <%=configName%>
+./node_modules/protractor/bin/protractor protractorConfig
 
 ### Generate a unit test
 

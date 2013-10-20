@@ -152,11 +152,11 @@ SailsAngularGenerator.prototype.projectfiles = function projectfiles() {
 // };
 
 
-ProtractorGenerator.prototype.spec = function spec() {
+SailsAngularGenerator.prototype.spec = function spec() {
   this.mkdir('spec');
 };
 
-ProtractorGenerator.prototype.protractorFiles = function() {
-  this.copy('protractorConfig.js', 'protractorConfig.js');
-  this.copy('README_Protractor.txt');
+SailsAngularGenerator.prototype.protractorFiles = function() {
+  this.copy('protractorConfig.js');
+  this.copy('README_Protractor.md');
 };
