@@ -1,6 +1,7 @@
 'use strict';
 var util = require('util');
 var path = require('path');
+var spawn = require('child_process').spawn;
 var yeoman = require('yeoman-generator');
 var rimraf = require('rimraf');
 
@@ -33,8 +34,17 @@ SailsAngularGenerator.prototype.askFor = function askFor() {
 
   // have Yeoman greet the user.
   console.log(this.yeoman);
-  
-  this.angularGen.on('end',function() {
+
+  var prompts = [{
+      name: 'includeRequireJS',
+      message: 'Would you like to include RequireJS (for AMD support)?'
+  }];
+
+  this.prompt(prompts, function (props) {
+    this.includeRequireJS = props.includeRequireJS;
+  });
+        
+  this.angularGen.on('end',function() {    
     that.bootstrap = that.angularGen.bootstrap;
     that.compassBootstrap = that.angularGen.compassBootstrap;
     that.resourceModule = that.angularGen.resourceModule;
@@ -92,4 +102,25 @@ SailsAngularGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('jshintrc', '.jshintrc');
   this.copy('gitignore', '.gitignore');
   this.copy('Gruntfile.js');
+
+  var protractorGen  = spawn('npm', ['install', 'generator-protractor', '-g']);
+  
+  protractorGen.stdout.on('data', function (data) {
+    console.log('stdout: ' + data);
+  });
+
+  protractorGen.stderr.on('data', function (data) {
+    console.log('stderr: ' + data);
+  });
+
+  protractorGen.on('close', function (code) {
+    console.log('closed with code ' + code);
+  });
+
+  // user should NOT override package.json!
+  var installProtractor  = spawn('yo', ['protractor']);
+
+  // Add protractor to devDependencies of package.json
+  this.packageFile = this.readFileAsString(path.join(this.sourceRoot(), 'package.json'));
+  this.packageFile.replace('"devDependencies": {', '"devDependencies": {\n  "protractor": "~0.10.0",\n'  
 };

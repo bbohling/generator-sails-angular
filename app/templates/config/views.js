@@ -1,3 +1,3 @@
-module.exports = {
-	'viewEngine': 'ejs'
+module.exports.views = {
+	engine: 'ejs'
 };

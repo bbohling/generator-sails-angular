@@ -9,7 +9,8 @@ files = [
   JASMINE_ADAPTER,
   'app/bower_components/angular/angular.js',
   'app/bower_components/angular-mocks/angular-mocks.js',
-  'app/bower_components/restangular/dist/restangular.js',
+  // USE Protractor instead!
+  //'app/bower_components/restangular/dist/restangular.js',
   'app/bower_components/lodash/dist/lodash.js',
   'app/scripts/*.js',
   'app/scripts/**/*.js',
