@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 var path = require('path');
-var spawn = require('child_process').spawn;
+var exec = require('child_process').exec;
 var yeoman = require('yeoman-generator');
 var rimraf = require('rimraf');
 
@@ -40,40 +40,47 @@ SailsAngularGenerator.prototype.askFor = function askFor() {
       message: 'Would you like to include RequireJS (for AMD support)?'
   }];
 
+  var scope = this;
+
   this.prompt(prompts, function (props) {
     this.includeRequireJS = props.includeRequireJS;
-  });
-        
-  this.angularGen.on('end',function() {    
-    that.bootstrap = that.angularGen.bootstrap;
-    that.compassBootstrap = that.angularGen.compassBootstrap;
-    that.resourceModule = that.angularGen.resourceModule;
-    that.cookiesModule = that.angularGen.cookiesModule;
-    that.sanitizeModule = that.angularGen.sanitizeModule;
+    runAngularGenerator(scope)
+    
+  }.bind(this));
 
-    var filesToNix = [
-      '.editorconfig',
-      '.gitignore',
-      '.jshintrc',
-      'Gruntfile.js',
-      'package.json',
-      'bower.json',
-      'app/scripts/app.js',
-      'app/scripts/controllers/main.js',
-      'app/views/main.html',
-      'app/index.html',
-      'test/spec/controllers/main.js',
-      'karma.conf.js'
-    ];
 
-    filesToNix.forEach(function(file){
-      rimraf.sync(file);
-    });
+  var runAngularGenerator = function(_scope) {
+    _scope.angularGen.on('end',function() {    
+      that.bootstrap = that.angularGen.bootstrap;
+      that.compassBootstrap = that.angularGen.compassBootstrap;
+      that.resourceModule = that.angularGen.resourceModule;
+      that.cookiesModule = that.angularGen.cookiesModule;
+      that.sanitizeModule = that.angularGen.sanitizeModule;
 
-    cb();
-  });  
-  
-  this.angularGen.run();
+      var filesToNix = [
+        '.editorconfig',
+        '.gitignore',
+        '.jshintrc',
+        'Gruntfile.js',
+        'package.json',
+        'bower.json',
+        'app/scripts/app.js',
+        'app/scripts/controllers/main.js',
+        'app/views/main.html',
+        'app/index.html',
+        'test/spec/controllers/main.js',
+        'karma.conf.js'
+      ];
+
+      filesToNix.forEach(function(file){
+        rimraf.sync(file);
+      });
+      cb();
+    });  
+    
+    _scope.angularGen.run();    
+  }        
+
 };
 
 SailsAngularGenerator.prototype.app = function app() {
@@ -103,24 +110,53 @@ SailsAngularGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('gitignore', '.gitignore');
   this.copy('Gruntfile.js');
 
-  var protractorGen  = spawn('npm', ['install', 'generator-protractor', '-g']);
-  
-  protractorGen.stdout.on('data', function (data) {
-    console.log('stdout: ' + data);
-  });
+};
 
-  protractorGen.stderr.on('data', function (data) {
-    console.log('stderr: ' + data);
-  });
+// Another option is to simply duplicate the basic functionality found in generator-protractor
+// In order to avoid any prolems with package.json
+// SailsAngularGenerator.prototype.e2eConfig = function e2eConfig() {
+//   var exec = require('child_process').exec,
+//       child;
 
-  protractorGen.on('close', function (code) {
-    console.log('closed with code ' + code);
-  });
+//   var runProtractor = function() {
+//     console.log('Note: Please, do NOT overwrite your existing package.json file with this generator!!')
+//     exec('yo protractor', function(error, stdout, stderr) {});
+//   }
 
-  // user should NOT override package.json!
-  var installProtractor  = spawn('yo', ['protractor']);
+//   var installProtractor = function() {
+//     exec('npm install generator-protractor', function (error, stdout, stderr) {
+//       if (error !== null) {
+//         console.log('error on: npm install generator-protractor > ' + error);
+//       } else {
+//         runProtractor();
+//       }
+//     });                
+//   }
 
-  // Add protractor to devDependencies of package.json
-  this.packageFile = this.readFileAsString(path.join(this.sourceRoot(), 'package.json'));
-  this.packageFile.replace('"devDependencies": {', '"devDependencies": {\n  "protractor": "~0.10.0",\n'  
+//   child = exec('npm search generator-protractor', function (error, stdout, stderr) {    
+//     if (error !== null) {
+//       console.log('error on: npm search generator-protractor > ' + error);
+//     } else {
+//       if (stdout !== null && !stdout.contains('generator-protractor')) {
+//         installProtractor();
+//       } else {
+//         runProtractor();
+//       }        
+//     }
+//   });
+
+//   console.log("Attempting to add protractor as a dev dependency in package.json")
+//   // Add protractor to devDependencies of package.json
+//   this.packageFile = this.readFileAsString(path.join(this.sourceRoot(), '../../package.json'));
+//   this.packageFile.replace('"devDependencies": {', '"devDependencies": {\n  "protractor": "~0.10.0",\n');  
+// };
+
+
+ProtractorGenerator.prototype.spec = function spec() {
+  this.mkdir('spec');
+};
+
+ProtractorGenerator.prototype.protractorFiles = function() {
+  this.copy('protractorConfig.js', 'protractorConfig.js');
+  this.copy('README_Protractor.txt');
 };

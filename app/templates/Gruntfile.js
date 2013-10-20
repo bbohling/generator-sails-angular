@@ -41,7 +41,7 @@ module.exports = function (grunt) {
           '<%%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ],
         tasks: ['livereload']
-      }
+      },
     },
     connect: {
       options: {
@@ -95,9 +95,15 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%%= yeoman.app %>/scripts/{,*/}*.js',
       ]
-    },
+    },    
+    mochacli: {
+      options: {
+        bail: true
+      },
+      all: ['test/*.js']
+    },    
     karma: {
       unit: {
         configFile: 'karma.conf.js',
@@ -305,5 +311,6 @@ module.exports = function (grunt) {
     'usemin'
   ]);
 
+  // grunt.registerTask('default', ['mochacli', 'build']);
   grunt.registerTask('default', ['build']);
 };

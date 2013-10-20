@@ -26,12 +26,15 @@
   },
   "dependencies": {
     "yeoman-generator": "latest",
-    "generator-karma": "latest",
-    "generator-angular": "latest",
-    "rimraf": "latest"
+    "generator-karma": "~0.5.0",
+    "generator-angular": "~0.5.0",
+    "generator-protractor": "~0.1.7",
+    "exec-sync": "latest",
+    "rimraf": "latest",
+    "colors": "~0.6.2"
   },
   "devDependencies": {
-    "mocha": "latest",
+    "mocha": "latest"
   },
   "engines": {
     "node": ">=0.8.0"

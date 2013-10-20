@@ -5,7 +5,7 @@
     "sass-bootstrap": "~2.3.2",<% } %><% if (includeRequireJS) { %>
     "requirejs": "~2.1.9",<% } %>
     "modernizr": "~2.6.2",
-    "jquery": "~2.0.0"
+    "jquery": "~2.0.0",
     "angular": "~1.2.0-rc.3",
     "json3": "~3.2.4",
     "lodash": "~1.2.1",
@@ -14,6 +14,6 @@
     "angular-sanitize": "~1.2.0-rc.3"<% } %>
   },
   "devDependencies": {
-    "angular-mocks": "~1.2.0-rc.3",
+    "angular-mocks": "~1.2.0-rc.3"
   }
 }
