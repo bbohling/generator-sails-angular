@@ -2,16 +2,19 @@
   "name": "<%= _.slugify(appname) %>",
   "version": "0.0.0",
   "dependencies": {<% if (compassBootstrap) { %>
-    "sass-bootstrap": "~3.0.0",<% } %><% if (includeRequireJS) { %>
+    "sass-bootstrap": "~3.0.17",<% } %><% if (includeRequireJS) { %>
     "requirejs": "~2.1.9",<% } %>
     "modernizr": "~2.6.2",
     "jquery": "~2.0.0",
     "angular": "~1.2.0-rc.3",
     "json3": "~3.2.4",
     "lodash": "~1.2.1",
+    "angular-ui-utils": "0.0.4",
+    "forms-angular-bower": "0.0.27",
     "es5-shim": "~2.0.8"<% if (cookiesModule) { %>,
     "angular-cookies": "~1.2.0-rc.3"<% } %><% if (sanitizeModule) { %>,
     "angular-sanitize": "~1.2.0-rc.3"<% } %>
+
   },
   "devDependencies": {
     "angular-mocks": "~1.2.0-rc.3"

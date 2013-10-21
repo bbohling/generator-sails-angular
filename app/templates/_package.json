@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "sails": "~0.9.7",
-    "express": "~3.4.2"
+    "express": "~3.4.2",
+     "forms-angular": "~0.0.27"
   },
   "devDependencies": {
     "grunt": "~0.4.0",
