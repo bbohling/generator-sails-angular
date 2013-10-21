@@ -11,9 +11,10 @@ var SailsAngularGenerator = module.exports = function SailsAngularGenerator(args
   this.argument('appname', { type: String, required: false });
   this.appname = this.appname || path.basename(process.cwd());
   
-  this.env.register('generator-angular','angular');
+  this.env.register('generator-angular-ui-router','angular-ui-router');
 
-  this.angularGen = this.env.create('angular:app',{ options: { 'skip-install':true } });
+  // same as angular generator, but also includes ui-router as a bonus ;)
+  this.angularGen = this.env.create('angular-ui-router:app',{ options: { 'skip-install':true } });
 
   // Prevent angular:app from running npm install && bower install
   // we'll do that when we're done here
