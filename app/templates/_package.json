@@ -4,7 +4,10 @@
   "dependencies": {
     "sails": "~0.9.7",
     "express": "~3.4.2",
-     "forms-angular": "~0.0.27"
+    "forms-angular": "git://github.com/mchapman/ui-date.git#dev",
+    "angular-momentjs": "~0.0.5",
+    "angular-retina": "~0.2.0"
+    // angular-router 0.0.2
   },
   "devDependencies": {
     "grunt": "~0.4.0",
